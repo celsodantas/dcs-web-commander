@@ -1,0 +1,47 @@
+ <!DOCTYPE html>
+<html>
+  <head>
+    <!-- CSS -->
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+
+     <!-- JS -->
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+    <meta charset="UTF-8">
+    <title>Web AirCommander</title>
+  </head>
+  <body>
+
+    <style>
+      #theaterMap { height: 800px; }
+    </style>
+
+    <div id="theaterMap"></div>
+
+    <script>
+      // caucasus region
+      // 42.561, 41.276
+      var mymap = L.map('theaterMap').setView([43.05, 39.40], 7);
+
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 18,
+          id: 'celsodantas/ckg5ma5q80xr319pafdntyiol',
+          tileSize: 512,
+          zoomOffset: -1,
+          accessToken: 'pk.eyJ1IjoiY2Vsc29kYW50YXMiLCJhIjoiY2tnNWk4ZWlpMGcyZzJ5bDdjZTU5c2IwdCJ9.1dK2LqeGzVzILLxUToadzg'
+      }).addTo(mymap);
+
+      mymap.on("click", function (event) {
+        // TODO: send event to server with latlog info
+        // First step is to send a command to spawn aircrafts at this location
+        console.log(event)
+      })
+    </script>
+  </body>
+</html>
+
