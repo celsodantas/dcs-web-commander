@@ -33,7 +33,7 @@
     <script>
       // caucasus region
       // 42.561, 41.276
-      var mymap = L.map('theaterMap').setView([43.05, 39.40], 7);
+      var mymap = L.map('theaterMap', {zoomSnap: 0, zoomDelta: 0.25, wheelPxPerZoomLevel: 220}).setView([43.05, 39.40], 7);
 
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
