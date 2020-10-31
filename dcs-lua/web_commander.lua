@@ -7,9 +7,11 @@ end
 WebCommanderServer.Start()
 
 local ActiveGroups = SET_GROUP:New():FilterActive():FilterStart()
-function UpdateUnitDatabase () 
+function UpdateExport () 
     MESSAGE:New("Scheduler tick"):ToAll()
-    local UnitsDatabase = {}
+    local ExportData = {}
+
+    ExportData.units = {}
 
     ActiveGroups:ForEachGroup(
         function (Group)
@@ -20,7 +22,6 @@ function UpdateUnitDatabase ()
             for i = 1, #Units do 
                 local unit = Group:GetUnit(i)
 
-                
                 local UnitData = {}
                 UnitData.callsign = unit:GetCallsign()
                 local coordinate = unit:GetCoordinate()
@@ -32,16 +33,17 @@ function UpdateUnitDatabase ()
                 end
 
                 UnitData.height = unit:GetHeight()
+                UnitData.heading = unit:GetHeading()
                 
-                local key = Group.GroupName .. "-" .. UnitData.Callsign
-                UnitsDatabase[key] = UnitData
+                local key = Group.GroupName .. "-" .. UnitData.callsign
+                ExportData.units[key] = UnitData
 
                 MESSAGE:New("UNIT :: " .. tostring(unit:GetCallsign()) .. " " .. tostring(unit:GetHeight()) ):ToAll()
             end
         end
     )
 
-    ExportToFile(UnitsDatabase)
+    ExportToFile(ExportData)
 end
 
 function ExportToFile(data)
@@ -50,7 +52,7 @@ function ExportToFile(data)
     if jsonData == nil then 
         MESSAGE:New("FILE EMPTY")
     end
-    saveFile("D:\\code\\github.com\\celsodantas\\dcs-web-commander\\tmp\\units-export.json", jsonData)
+    saveFile("D:\\code\\github.com\\celsodantas\\dcs-web-commander\\web\\data\\export.json", jsonData)
 end
 
-UpdateDB = SCHEDULER:New(nil, UpdateUnitDatabase, {}, 1, 5 )
+UpdateDB = SCHEDULER:New(nil, UpdateExport, {}, 1, 5 )
