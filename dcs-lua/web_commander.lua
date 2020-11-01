@@ -4,17 +4,21 @@ if JSONLib == nil then
     JSONLib = dofile('D:/code/github.com/celsodantas/dcs-web-commander/dcs-lua/json.lua')
 end
 
-WebCommanderServer.Start()
-MESSAGE:New("WebCommander Started --"):ToAll()
+-- TODO enable commander
+-- WebCommanderServer.Start()
 
-local ActiveGroups = SET_GROUP:New():FilterActive():FilterStart()
-function UpdateExport () 
+WebExporter = {}
+WebExporter.ActiveGroups = SET_GROUP:New():FilterActive():FilterStart()
+WebExporter.ExportPath = nil
+WebExporter.UpdateDBScheduler = nil
+
+function WebExporter.UpdateExport () 
     -- MESSAGE:New("Scheduler tick"):ToAll()
     local ExportData = {}
 
     ExportData.units = {}
 
-    ActiveGroups:ForEachGroup(
+    WebExporter.ActiveGroups:ForEachGroup(
         function (Group)
             local Units = Group:GetUnits()
             -- MESSAGE:New("Processing group: " .. tostring(Group.GroupName)):ToAll()
@@ -48,16 +52,27 @@ function UpdateExport ()
         end
     )
 
-    ExportToFile(ExportData)
+    WebExporter.ExportToFile(ExportData)
 end
 
-function ExportToFile(data)
+function WebExporter.ExportToFile(data)
     local jsonData = JSONLib.encode(data)
 
     if jsonData == nil then 
         MESSAGE:New("FILE EMPTY")
     end
-    saveFile("D:\\code\\github.com\\celsodantas\\dcs-web-commander\\web\\data\\export.json", jsonData)
+
+    saveFile(WebExporter.ExportPath, jsonData)
 end
 
-UpdateDB = SCHEDULER:New(nil, UpdateExport, {}, 1, 5 )
+function WebExporter.Start(path)
+    MESSAGE:New("WebExporter Started --"):ToAll()
+
+    if (path == nil) then
+        MESSAGE:New("WebExporter.ExportPath NOT SET. Not Exporting."):ToAll()
+        return
+    end
+
+    WebExporter.ExportPath = path
+    WebExporter.UpdateDBScheduler = SCHEDULER:New(nil, WebExporter.UpdateExport, {}, 1, 5 )
+end
