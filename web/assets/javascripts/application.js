@@ -41,7 +41,7 @@ $(function () {
         // var icon = L.icon({ iconUrl: 'assets/airport-circle.png', iconSize: [25, 25] })
         var iconHtml =  `
             <div class="airportMarker"> 
-                <img class="icon" src="assets/airport-circle.png"> 
+                <img class="icon" src="assets/images/airport-circle.png"> 
                 <div class="name">${airport.name}</div>
             </div> 
         `
@@ -64,15 +64,15 @@ $(function () {
             if (data.isAir) 
             {
                 if (data.coalition == 2) {
-                    icon = L.icon({ iconUrl: 'assets/jet-blue.png', iconSize: [25, 25], className: "radarSignalIcon" })    
+                    icon = L.icon({ iconUrl: 'assets/images/jet-blue.png', iconSize: [25, 25], className: "radarSignalIcon" })    
                 } else {
-                    icon = L.icon({ iconUrl: 'assets/jet-red.png', iconSize: [25, 25], className: "radarSignalIcon" })    
+                    icon = L.icon({ iconUrl: 'assets/images/jet-red.png', iconSize: [25, 25], className: "radarSignalIcon" })    
                 }    
             } else {
                 if (data.coalition == 2) {
-                    icon = L.icon({ iconUrl: 'assets/dot-blue.png', iconSize: [12, 12], className: "radarSignalIcon" })    
+                    icon = L.icon({ iconUrl: 'assets/images/dot-blue.png', iconSize: [12, 12], className: "radarSignalIcon" })    
                 } else {
-                    icon = L.icon({ iconUrl: 'assets/dot-red.png', iconSize: [12, 12], className: "radarSignalIcon" })    
+                    icon = L.icon({ iconUrl: 'assets/images/dot-red.png', iconSize: [12, 12], className: "radarSignalIcon" })    
                 }    
             }
             
