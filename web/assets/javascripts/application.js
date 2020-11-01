@@ -10,6 +10,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: 'pk.eyJ1IjoiY2Vsc29kYW50YXMiLCJhIjoiY2tnNWk4ZWlpMGcyZzJ5bDdjZTU5c2IwdCJ9.1dK2LqeGzVzILLxUToadzg'
 }).addTo(mymap);
 
+// This is here just for reference.
 // mymap.on("click", function (event) {
 //   // TODO: send event to server with latlog info
 //   // First step is to send a command to spawn aircrafts at this location
@@ -38,7 +39,6 @@ var airports = [{
 
 $(function () {
     airports.forEach(function (airport) {
-        // var icon = L.icon({ iconUrl: 'assets/airport-circle.png', iconSize: [25, 25] })
         var iconHtml =  `
             <div class="airportMarker"> 
                 <img class="icon" src="assets/images/airport-circle.png"> 
@@ -52,6 +52,8 @@ $(function () {
     })
 
     var updateView = function (exportData) {
+        // TODO: dont remove all the markers but update each of them and remove the unused ones (presumably dead).
+        // removing and re-adding everything causes the marks to flicker during zooming.
         markers.forEach(function (m) {
             mymap.removeLayer(m);
         });
@@ -76,7 +78,6 @@ $(function () {
                 }    
             }
             
-            // var icon = L.divIcon({className: 'radarSignalIcon', html: '&nbsp;'});
             var heading = data.heading - 90.0; // hack bc of the icon orientation is pointing RIGHT. TODO: fix the icon to point UP
 
             var markerOptions = { icon: icon, rotationAngle: heading }
@@ -103,8 +104,9 @@ $(function () {
             exportData = data;
             updateView(exportData)
         });
+
+        setTimeout(fetchData, 5000);
     };
 
     fetchData();
-    setInterval(fetchData, 2000);
 })
