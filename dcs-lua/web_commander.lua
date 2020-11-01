@@ -5,10 +5,11 @@ if JSONLib == nil then
 end
 
 WebCommanderServer.Start()
+MESSAGE:New("WebCommander Started --"):ToAll()
 
 local ActiveGroups = SET_GROUP:New():FilterActive():FilterStart()
 function UpdateExport () 
-    MESSAGE:New("Scheduler tick"):ToAll()
+    -- MESSAGE:New("Scheduler tick"):ToAll()
     local ExportData = {}
 
     ExportData.units = {}
@@ -16,8 +17,7 @@ function UpdateExport ()
     ActiveGroups:ForEachGroup(
         function (Group)
             local Units = Group:GetUnits()
-
-            MESSAGE:New("Processing group: " .. tostring(Group.GroupName)):ToAll()
+            -- MESSAGE:New("Processing group: " .. tostring(Group.GroupName)):ToAll()
 
             for i = 1, #Units do 
                 local unit = Group:GetUnit(i)
@@ -34,11 +34,16 @@ function UpdateExport ()
 
                 UnitData.height = unit:GetHeight()
                 UnitData.heading = unit:GetHeading()
+                UnitData.category = unit:GetUnitCategory()
+                UnitData.coalition = unit:GetCoalition()
+                UnitData.objectTypeName = unit:GetDCSObject():getTypeName()
+                UnitData.inAir = unit:InAir()
+                UnitData.isAir = unit:IsAir()
                 
                 local key = Group.GroupName .. "-" .. UnitData.callsign
                 ExportData.units[key] = UnitData
 
-                MESSAGE:New("UNIT :: " .. tostring(unit:GetCallsign()) .. " " .. tostring(unit:GetHeight()) ):ToAll()
+                -- MESSAGE:New("UNIT :: " .. tostring(unit:GetCallsign()) .. " " .. tostring(unit:GetHeight()) ):ToAll()
             end
         end
     )

@@ -1,0 +1,12 @@
+.airportMarker .name {
+    margin-top:-7px; 
+    font-family: 'Arial'; 
+    font-weight: bold; 
+    color: white; 
+    text-transform: capitalize;
+}
+
+.airportMarker .icon {
+    height: 25px; 
+    width: 25px
+}

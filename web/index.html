@@ -6,10 +6,14 @@
    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
    crossorigin=""/>
 
+   <link rel="stylesheet" href="assets/application.css" />
+
      <!-- JS -->
       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin=""></script>
+
+   <script src="assets/leaflet.rotatedMarker.js" crossorigin=""></script>
 
    <script
     src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -30,64 +34,7 @@
 
     <div id="theaterMap"></div>
 
-    <script>
-      // caucasus region
-      // 42.561, 41.276
-      var mymap = L.map('theaterMap', {zoomSnap: 0, zoomDelta: 0.25, wheelPxPerZoomLevel: 220}).setView([43.05, 39.40], 7);
-
-      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-          maxZoom: 18,
-          id: 'celsodantas/ckg5ma5q80xr319pafdntyiol',
-          tileSize: 512,
-          zoomOffset: -1,
-          accessToken: 'pk.eyJ1IjoiY2Vsc29kYW50YXMiLCJhIjoiY2tnNWk4ZWlpMGcyZzJ5bDdjZTU5c2IwdCJ9.1dK2LqeGzVzILLxUToadzg'
-      }).addTo(mymap);
-
-      // mymap.on("click", function (event) {
-      //   // TODO: send event to server with latlog info
-      //   // First step is to send a command to spawn aircrafts at this location
-      //   console.log(event)
-      // })
-
-      var exportData = null;
-      var markers = []
-
-      $(function () {
-        var updateView = function (exportData) {
-          markers.forEach(function (m) {
-            mymap.removeLayer(m);
-          });
-
-          $.each(exportData.units, function (key, data) {
-            var icon = L.icon({ iconUrl: 'assets/triangle.png', iconSize: [20, 20], className: "radarSignalIcon" })
-            // var icon = L.divIcon({className: 'radarSignalIcon', html: '&nbsp;'});
-            var marker = L.marker([data.lat, data.lon], { icon: icon });
-
-            marker.addTo(mymap);
-            markers.push(marker)
-
-            var unitInfoPopupTemplate = "";
-            unitInfoPopupTemplate += "<p> callsign: "+ data.callsign +"</p>";
-            unitInfoPopupTemplate += "<p> height: "+ data.height +"</p>";
-
-            marker.bindPopup(unitInfoPopupTemplate)
-          })
-        }
-
-        var fetchData = function () {
-          $.get("/data/export.json", function (data) {
-            exportData = data;
-
-            updateView(exportData)
-          });
-        };
-
-        fetchData();
-        setInterval(fetchData, 2000);
-      })
-
-    </script>
+    <script src="assets/application.js" crossorigin=""></script>
   </body>
 </html>
 
